@@ -1,0 +1,25 @@
+version: '3.2'
+services:
+  lara_dock_web:
+    build: .
+    volumes:
+    - ./web:/var/www/html/laravel-docker
+    container_name: lara_dock_web
+    ports:
+    - 8081:8081
+    - 3000:3000
+  lara_dock_db:
+    image: mariadb:latest
+    container_name: lara_dock_db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: lara_dock
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+      TZ: Asia/Tokyoa
+    volumes:
+    - ./db/data:/var/lib/mysql
+    - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    - ./db/sql:/docker-entrypoint-initdb.d
+    ports:
+    - 3306:3306
